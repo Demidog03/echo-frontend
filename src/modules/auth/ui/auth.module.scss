@@ -1,0 +1,19 @@
+.signInFormContainer {
+    width: 100%;
+    align-items: center;
+
+    .submitBtn {
+        width: fit-content;
+    }
+}
+
+.dialogContainer {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    img {
+        width: 100%;
+    }
+}
