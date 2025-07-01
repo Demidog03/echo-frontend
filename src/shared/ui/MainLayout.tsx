@@ -23,6 +23,7 @@ import { useAuthStore } from '../../modules/auth/store/auth.store';
 import RandomBgAvatar from './RandomBgAvatar';
 import useGetProfileQuery from '../../modules/profile/query/useGetProfileQuery';
 import { Stack } from '@mui/material';
+import { useLocation, useNavigate } from "react-router"
 
 const drawerWidth = 240;
 
@@ -94,6 +95,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
   const [open, setOpen] = useState(true);
   const { clearToken } = useAuthStore()
   const { data: profile } = useGetProfileQuery()
+  const navigate = useNavigate()
+  const location = useLocation();
 
   console.log(profile)
 
@@ -108,6 +111,12 @@ export default function MainLayout({ children }: MainLayoutProps) {
   function logoutUser() {
     clearToken()
   }
+  function GotoEditProfile() {
+    navigate('/profile')
+  }
+  const handleBack = () => {
+    navigate('/');
+  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -132,7 +141,11 @@ export default function MainLayout({ children }: MainLayoutProps) {
             <Typography variant="h6" noWrap component="div">
               Persistent drawer
             </Typography>
-            {profile && <RandomBgAvatar firstName={profile?.firstName} lastName={profile?.lastName}/>}
+              <button onClick={GotoEditProfile}>Edit Profile</button>
+              {location.pathname === '/profile' && (
+              <button onClick={handleBack}>Back</button>
+              )}
+              {profile && <RandomBgAvatar firstName={profile?.firstName} lastName={profile?.lastName}/>}    
           </Stack>
         </Toolbar>
       </AppBar>
@@ -155,7 +168,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        
           <List>
           {['Inbox'].map((text, index) => (
             <ListItem key={text} disablePadding>
@@ -178,7 +190,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
             </ListItemButton>
            </ListItem>
         </List>
-       
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
