@@ -116,6 +116,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   }
   const handleBack = () => {
     navigate('/');
+    console.log('hello')
   };
 
   return (
