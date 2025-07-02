@@ -78,7 +78,7 @@ function SignInForm() {
                     helperText={errors.twoFACode?.message}
                     fullWidth
                     id="twoFACode"
-                    type="twoFACode"
+                    type="number"
                     label="Two-Factor Authentication code"
                     variant="outlined"
                 />
