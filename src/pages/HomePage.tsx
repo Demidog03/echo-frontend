@@ -1,6 +1,7 @@
 import { Link } from "react-router"
 import MainLayout from "../shared/ui/MainLayout"
 
+
 function HomePage() {
     return (
         <MainLayout>
