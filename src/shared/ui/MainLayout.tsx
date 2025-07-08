@@ -24,6 +24,7 @@ import RandomBgAvatar from './RandomBgAvatar';
 import useGetProfileQuery from '../../modules/profile/query/useGetProfileQuery';
 import { Stack } from '@mui/material';
 import { useLocation, useNavigate } from "react-router"
+import Footer from './Footer';
 
 const drawerWidth = 240;
 
@@ -119,7 +120,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', flexDirection: "column", minHeight: "100vh"}}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -191,10 +192,13 @@ export default function MainLayout({ children }: MainLayoutProps) {
            </ListItem>
         </List>
       </Drawer>
+
       <Main open={open}>
         <DrawerHeader />
         {children}
       </Main>
+
+      <Footer />
     </Box>
   );
 }
