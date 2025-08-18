@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router";
-import { EditProfilePage, HomePage, SignInPage, SignUpPage } from "./lazyPages";
+import { ArticlePage, EditProfilePage, HomePage, SignInPage, SignUpPage } from "./lazyPages";
 import AuthPageGuard from "./modules/guards/ui/AuthPageGuard";
 import PublicPageGuard from "./modules/guards/ui/PublicPageGuard";
 
@@ -19,7 +19,11 @@ const router = createBrowserRouter([
     {
         path: '/profile',
         element: <AuthPageGuard><EditProfilePage/></AuthPageGuard>
-    }
+    },
+    {
+        path: '/article',
+        element: <ArticlePage/>
+    }   
 ])
 
 export default router
