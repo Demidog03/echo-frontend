@@ -44,7 +44,7 @@ interface SignUpFormData {
 
 function SignUpForm() {
     const navigate = useNavigate()
-    const { handleSubmit, register, formState: { errors } } = useForm<SignUpFormData>({
+    const { handleSubmit, register, formState: { errors,isValid } } = useForm<SignUpFormData>({
         defaultValues: {
             username: '',
             firstName: '',
@@ -169,7 +169,7 @@ function SignUpForm() {
                     label="Confirm Password"
                     variant="outlined"
                 />
-                <Button loading={isPending} type="submit" className={classes.submitBtn} disableElevation variant="contained">Submit</Button>
+                <Button disabled={!isValid} loading={isPending} type="submit" className={classes.submitBtn} disableElevation variant="contained">Submit</Button>
                 <Link onClick={goToSignIn}>Already have an account? Sign in</Link>
                 <FullscreenLoading open={isPending} />
                 <Dialog onClose={handleClose} open={isOpen}>

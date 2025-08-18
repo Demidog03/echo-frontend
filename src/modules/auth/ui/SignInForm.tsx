@@ -21,14 +21,14 @@ const schema = yup.object().shape({
 
 function SignInForm() {
     const navigate = useNavigate()
-    const { register, formState: { errors }, handleSubmit } = useForm<SignInFormData>({
+    const { register, formState: { errors,isValid }, handleSubmit } = useForm<SignInFormData>({
         defaultValues: {
             username: '',
             password: '',
             twoFACode: ''
         },
-        // reValidateMode: 'onBlur',
-        // mode: 'all',
+        reValidateMode: 'onBlur',
+        mode: 'all',
         resolver: yupResolver(schema)
     })
     const { data, mutate, isPending } = useLoginMutation()
@@ -82,7 +82,7 @@ function SignInForm() {
                     label="Two-Factor Authentication code"
                     variant="outlined"
                 />
-                <Button type="submit" className={classes.submitBtn} disableElevation variant="contained">Submit</Button>
+                <Button disabled = {!isValid} type="submit" className={classes.submitBtn} disableElevation variant="contained">Submit</Button>
                 {/* type="submit" обьязателен */}
                 <Link onClick={goToSignUp}>Do not have an account? Sign up</Link>
                 <FullscreenLoading open={isPending}/>
