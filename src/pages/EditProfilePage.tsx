@@ -6,7 +6,7 @@ function EditProfilePage() {
     return (
         <MainLayout>
             <Container maxWidth="sm">
-                <Typography variant="h1">Edit Profile</Typography>
+                <Typography style={{ marginBottom: 30 }} variant="h2">Edit Profile</Typography>
                 <EditProfileForm/>
             </Container>
         </MainLayout>

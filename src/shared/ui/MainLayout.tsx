@@ -15,190 +15,206 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import HomeFilledIcon from '@mui/icons-material/HomeFilled';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { JSX, useState } from 'react';
+import { Stack } from '@mui/material';
+import { useNavigate } from 'react-router'
 import { useAuthStore } from '../../modules/auth/store/auth.store';
 import RandomBgAvatar from './RandomBgAvatar';
 import useGetProfileQuery from '../../modules/profile/query/useGetProfileQuery';
-import { Stack } from '@mui/material';
-import { useLocation, useNavigate } from "react-router"
 import Footer from './Footer';
+import { useThemeMode } from '../../theme/ThemeModeProvider'; // ✅ контекст темы
 
 const drawerWidth = 240;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
-  open?: boolean;
-}>(({ theme }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{ open?: boolean }>(
+    ({ theme, open }) => ({
+        flexGrow: 1,
+        padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: 0,
-      },
-    },
-  ],
-}));
+        ...(open && {
+            marginLeft: drawerWidth,
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        }),
+    })
+);
 
 interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
+    open?: boolean;
 }
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
+    shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+    transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
         width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: `${drawerWidth}px`,
+        marginLeft: drawerWidth,
         transition: theme.transitions.create(['margin', 'width'], {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
         }),
-      },
-    },
-  ],
+    }),
 }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
 }));
 
 interface MainLayoutProps {
-    children: JSX.Element // React компонент
+    children: JSX.Element | React.ReactNode;
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
-  const theme = useTheme();
-  const [open, setOpen] = useState(true);
-  const { clearToken } = useAuthStore()
-  const { data: profile } = useGetProfileQuery()
-  const navigate = useNavigate()
-  const location = useLocation();
+    const theme = useTheme();
+    const [open, setOpen] = useState(true);
+    const { clearToken } = useAuthStore();
+    const { data: profile } = useGetProfileQuery();
+    const navigate = useNavigate();
 
-  console.log(profile)
+    const { mode, toggleMode } = useThemeMode();
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+    const handleDrawerOpen = () => setOpen(true);
+    const handleDrawerClose = () => setOpen(false);
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+    function logoutUser() {
+        clearToken();
+    }
+    function gotoEditProfile() {
+        navigate('/profile');
+    }
+    function goHome() {
+        navigate('/');
+        setOpen(false);
+    }
+    function goFaqAndHelpPage() {
+        navigate('/faq');
+        setOpen(false);
+    }
+    function goAboutUsPage() {
+        navigate('/about');
+        setOpen(false);
+    }
 
-  function logoutUser() {
-    clearToken()
-  }
-  function GotoEditProfile() {
-    navigate('/profile')
-  }
-  const handleBack = () => {
-    navigate('/');
-  };
+    return (
+        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            {/* CssBaseline уже внутри ThemeModeProvider, но лишним не будет */}
+            <CssBaseline />
+            <AppBar position="fixed" open={open}>
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        sx={{ mr: 2, ...(open && { display: 'none' }) }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
 
-  return (
-    <Box sx={{ display: 'flex', flexDirection: "column", minHeight: "100vh"}}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={[
-              {
-                mr: 2,
-              },
-              open && { display: 'none' },
-            ]}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Stack sx={{ width: '100%' }} flexDirection="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="h6" noWrap component="div">
-              Persistent drawer
-            </Typography>
-              <button onClick={GotoEditProfile}>Edit Profile</button>
-              {location.pathname === '/profile' && (
-              <button onClick={handleBack}>Back</button>
-              )}
-              {profile && <RandomBgAvatar firstName={profile?.firstName} lastName={profile?.lastName}/>}    
-          </Stack>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-          <List>
-          {['Inbox'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <List onClick={logoutUser} style={{ marginTop: 'auto' }}>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <ExitToAppIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItemButton>
-           </ListItem>
-        </List>
-      </Drawer>
+                    <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between" alignItems="center">
+                        <Typography variant="h6" noWrap component="div">
+                            ECHO
+                        </Typography>
 
-      <Main open={open}>
-        <DrawerHeader />
-        {children}
-      </Main>
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <IconButton color="inherit" onClick={toggleMode} aria-label="toggle color mode">
+                                {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                            </IconButton>
 
-      <Footer />
-    </Box>
-  );
+                            {profile && (
+                                <div style={{ cursor: 'pointer' }} onClick={gotoEditProfile}>
+                                    <RandomBgAvatar firstName={profile?.firstName} lastName={profile?.lastName} />
+                                </div>
+                            )}
+                        </Stack>
+                    </Stack>
+                </Toolbar>
+            </AppBar>
+
+            <Drawer
+                sx={{
+                    width: drawerWidth,
+                    flexShrink: 0,
+                    '& .MuiDrawer-paper': {
+                        width: drawerWidth,
+                        boxSizing: 'border-box',
+                    },
+                }}
+                variant="persistent"
+                anchor="left"
+                open={open}
+            >
+                <DrawerHeader>
+                    <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </DrawerHeader>
+                <Divider />
+                <List>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={goHome}>
+                            <ListItemIcon>
+                                <HomeFilledIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Home" />
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+                <List>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={goAboutUsPage}>
+                            <ListItemIcon>
+                                <HomeFilledIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="About us" />
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+                <List>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={goFaqAndHelpPage}>
+                            <ListItemIcon>
+                                <HomeFilledIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="FAQ / Help" />
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+                <List onClick={logoutUser} sx={{ mt: 'auto' }}>
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <ExitToAppIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Logout" />
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+            </Drawer>
+
+            <Main open={open}>
+                <DrawerHeader />
+                {children}
+                <Footer />
+            </Main>
+        </Box>
+    );
 }

@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router";
 import useLoginMutation from "../query/useLoginMutation";
 import FullscreenLoading from "../../../shared/ui/FullscreenLoading";
+import PasswordField from '../../../shared/ui/PasswordField.tsx'
 
 interface SignInFormData {
     username: string
@@ -62,13 +63,12 @@ function SignInForm() {
                     label="Username"
                     variant="outlined"
                 />
-                <TextField
-                    {...register('password')} // чтобы useForm понимал поле password
+                <PasswordField
+                    {...register('password')}
                     error={Boolean(errors.password)}
                     helperText={errors.password?.message}
                     fullWidth
                     id="password"
-                    type="password"
                     label="Password"
                     variant="outlined"
                 />

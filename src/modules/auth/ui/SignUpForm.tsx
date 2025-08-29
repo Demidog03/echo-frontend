@@ -8,6 +8,7 @@ import { Genders } from "../../../types";
 import useRegisterMutation from "../query/useRegisterMutation";
 import FullscreenLoading from "../../../shared/ui/FullscreenLoading";
 import { useEffect, useState } from "react";
+import PasswordField from '../../../shared/ui/PasswordField.tsx'
 
 const signUpFormSchema = yup.object().shape({
     username: yup.string()
@@ -149,23 +150,22 @@ function SignUpForm() {
                     label="Email"
                     variant="outlined"
                 />
-                <TextField
+                <PasswordField
+                    {...register('password')}
                     error={Boolean(errors.password)}
                     helperText={errors.password?.message}
-                    {...register('password')}
                     fullWidth
                     id="password"
-                    type="password"
                     label="Password"
                     variant="outlined"
                 />
-                <TextField
+
+                <PasswordField
+                    {...register('confirmPassword')}
                     error={Boolean(errors.confirmPassword)}
                     helperText={errors.confirmPassword?.message}
-                    {...register('confirmPassword')}
                     fullWidth
                     id="confirmPassword"
-                    type="password"
                     label="Confirm Password"
                     variant="outlined"
                 />

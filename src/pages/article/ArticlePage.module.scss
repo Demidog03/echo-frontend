@@ -2,54 +2,56 @@
 @import url('https://fonts.cdnfonts.com/css/source-serif-pro');
 
 .container {
-    margin: auto;
-    margin-top: 32px;
-    margin-bottom: 80px;
+    margin: 32px auto 80px;
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    width: 100%;
     max-width: 800px;
 }
 
+.responsiveImg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+}
+
 .typheader1 {
-    min-width: 800px;
     font-family: 'Work Sans', sans-serif;
-    font-size: 35px;
+    font-size: clamp(26px, 3.5vw, 40px);
     font-weight: 600;
-    line-height: 40px;   
-    color: rgba(24, 26, 42, 1);
+    line-height: 1.2;
     margin-top: 16px;
     margin-bottom: 20px;
 }
 
 .divheader1 {
     display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .typheader2 {
     font-family: 'Work Sans', sans-serif;
-    font-size: 24px;
+    font-size: clamp(20px, 2.5vw, 24px);
     font-weight: 600;
-    margin-bottom: 16px;  
-    line-height: 28px;   
-    color: rgba(24, 26, 42, 1);
+    margin-bottom: 16px;
+    line-height: 1.2;
 }
 
 .typparagraph {
     font-family: 'Source Serif Pro', sans-serif;
-    font-size: 20px;
-    font-weight: 400; 
-    line-height: 32px;
-    color: rgba(59, 60, 74, 1);  
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 400;
+    line-height: 1.6;
 }
 
 .typparagraph1 {
     font-family: 'Source Serif Pro', sans-serif;
-    font-size: 24px;
-    font-weight: 400;   
+    font-size: clamp(18px, 2.4vw, 24px);
+    font-weight: 400;
     font-style: italic;
-    padding: 32px;
-    background-color: rgb(245, 245, 245);
+    padding: 24px;
     border-radius: 12px;
 }
 
@@ -57,10 +59,8 @@
     font-family: 'Work Sans', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    background-color: rgba(232, 232, 234, 1);
-    padding-top: 15px;
-    padding-bottom: 15px;
-    min-width: 750px;
+    padding: 15px 16px;
+    width: 100%;
     min-height: 100px;
     display: flex;
     flex-direction: column;
@@ -69,23 +69,21 @@
 }
 
 .typparagraph4 {
-    font-family: 'Work Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-    background-color: rgba(75, 107, 251, 1);
-    max-width: 101px;
-    max-height: 32px;
-    border-radius: 6px;
-    padding: 6px 12px;
-    text-align: center;
+    /* заменено на Chip в TSX */
 }
 
 .typparagraph3 {
     font-family: 'Work Sans', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: rgba(105, 106, 117, 1);
-    align-self: center;
     line-height: 20px;
+}
+
+/* узкие экраны */
+@media (max-width: 600px) {
+    .container {
+        margin-top: 16px;
+        margin-bottom: 48px;
+        padding: 0 12px;
+    }
 }
