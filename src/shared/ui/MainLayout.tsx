@@ -16,17 +16,20 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import HomeFilledIcon from '@mui/icons-material/HomeFilled';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { JSX, useState } from 'react';
-import { Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material'
 import { useNavigate } from 'react-router'
 import { useAuthStore } from '../../modules/auth/store/auth.store';
 import RandomBgAvatar from './RandomBgAvatar';
 import useGetProfileQuery from '../../modules/profile/query/useGetProfileQuery';
 import Footer from './Footer';
-import { useThemeMode } from '../../theme/ThemeModeProvider'; // ✅ контекст темы
+import { useThemeMode } from '../../theme/ThemeModeProvider';
+import InfoIcon from '@mui/icons-material/Info';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import HomeIcon from '@mui/icons-material/Home';
+
 
 const drawerWidth = 240;
 
@@ -113,6 +116,10 @@ export default function MainLayout({ children }: MainLayoutProps) {
         setOpen(false);
     }
 
+    function goToCreateBlogPage() {
+        navigate('/create-post');
+    }
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             {/* CssBaseline уже внутри ThemeModeProvider, но лишним не будет */}
@@ -135,6 +142,17 @@ export default function MainLayout({ children }: MainLayoutProps) {
                         </Typography>
 
                         <Stack direction="row" spacing={1} alignItems="center">
+                            <Button
+                                onClick={goToCreateBlogPage}
+                                variant="outlined"
+                                sx={{
+                                    borderColor: '#ffffff',
+                                    color: '#ffffff',
+                                }}
+                            >
+                                Create blog
+                            </Button>
+
                             <IconButton color="inherit" onClick={toggleMode} aria-label="toggle color mode">
                                 {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
                             </IconButton>
@@ -172,32 +190,31 @@ export default function MainLayout({ children }: MainLayoutProps) {
                     <ListItem disablePadding>
                         <ListItemButton onClick={goHome}>
                             <ListItemIcon>
-                                <HomeFilledIcon />
+                                <HomeIcon />
                             </ListItemIcon>
                             <ListItemText primary="Home" />
                         </ListItemButton>
                     </ListItem>
-                </List>
-                <List>
+
                     <ListItem disablePadding>
                         <ListItemButton onClick={goAboutUsPage}>
                             <ListItemIcon>
-                                <HomeFilledIcon />
+                                <InfoIcon />
                             </ListItemIcon>
                             <ListItemText primary="About us" />
                         </ListItemButton>
                     </ListItem>
-                </List>
-                <List>
+
                     <ListItem disablePadding>
                         <ListItemButton onClick={goFaqAndHelpPage}>
                             <ListItemIcon>
-                                <HomeFilledIcon />
+                                <HelpOutlineIcon />
                             </ListItemIcon>
                             <ListItemText primary="FAQ / Help" />
                         </ListItemButton>
                     </ListItem>
                 </List>
+
                 <List onClick={logoutUser} sx={{ mt: 'auto' }}>
                     <ListItem disablePadding>
                         <ListItemButton>
