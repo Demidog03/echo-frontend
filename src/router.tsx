@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createHashRouter } from 'react-router'
 import {
     AboutPage,
     ArticlePage, CreatePostPage,
@@ -13,7 +13,7 @@ import {
 import AuthPageGuard from "./modules/guards/ui/AuthPageGuard";
 import PublicPageGuard from "./modules/guards/ui/PublicPageGuard";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
         path: '/',
         element: <AuthPageGuard><HomePage/></AuthPageGuard>
